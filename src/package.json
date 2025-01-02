@@ -18,7 +18,8 @@
     "pg": "^8.13.1"
   },
   "devDependencies": {
-    "knex-cli": "^1.0.2"
+    "knex-cli": "^1.0.2",
+    "nodemon": "^3.1.9"
   },
   "description": ""
 }

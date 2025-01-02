@@ -1,6 +1,6 @@
 const { Client } = require("pg");
 
-// PostgreSQL bağlantı ayarları
+// PostgreSQL conn settings
 const connectionConfig = {
   host: "127.0.0.1",
   user: "postgres",
