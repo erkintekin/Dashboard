@@ -31,3 +31,17 @@ exports.createUser = async (req, res) => {
       .json({ message: "Internal servis hatası", error: err.message });
   }
 };
+
+// Super admin için kullanıcı silme
+
+exports.deleteUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await knex("users").where({ id }).del();
+    res.json({ message: "Kullanıcı başarıyla silindi" });
+  } catch {
+    res
+      .status(500)
+      .json({ message: "Internal servis hatası", error: err.message });
+  }
+};
