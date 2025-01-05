@@ -4,7 +4,6 @@ const {
   createUser,
   deleteUser,
 } = require("../controllers/userController");
-const authenticationToken = require("../middleware/authMiddleware");
 const allowRoles = require("../middleware/roleMiddleware");
 const authenticateToken = require("../middleware/authMiddleware");
 const router = express.Router();
