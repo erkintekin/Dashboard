@@ -12,14 +12,15 @@ const { get } = require("./userRoutes");
 const { update } = require("../config/knex");
 const router = express.Router();
 
-router.get("/add", authenticateToken, getProducts);
-router.get("/:id", authenticateToken, getProductById);
-router.post("/list", authenticateToken, allowRoles(1, 2), createProduct); // SuperAdmin ve Admin'e create yetkisi verilmesi
-router.put("/edit/:id", authenticateToken, allowRoles(1, 2), updateProduct); // SuperAdmin ve Admin'e edit yetkisi verilmesi
+router.get("/list", authenticateToken, getProducts); // Tüm ürünleri listeleme
+router.get("/:id", authenticateToken, getProductById); // Belirli bir ürünü ID ile getirme
+router.post("/add", authenticateToken, allowRoles(1, 2), createProduct); // Ürün ekleme
+router.put("/edit/:id", authenticateToken, allowRoles(1, 2), updateProduct); // Ürün güncelleme
 router.delete(
   "/delete/:id",
   authenticateToken,
   allowRoles(1, 2),
   deleteProduct
-); // SuperAdmin ve Admin'e delete yetkisi verilmesi
+); // Ürün silme
+
 module.exports = router;
