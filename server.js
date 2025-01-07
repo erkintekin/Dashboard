@@ -13,6 +13,7 @@ const salesOverviewRoutes = require("./src/routes/salesOverviewRoutes");
 const dailyOrdersRoutes = require("./src/routes/dailyOrdersRoutes");
 const orderStatusRoutes = require("./src/routes/orderStatusRoutes");
 const ordersRoutes = require("./src/routes/ordersRoutes");
+const channelPerformanceRoutes = require("./src/routes/channelPerformanceRoutes");
 
 dotenv.config();
 const app = express();
@@ -30,6 +31,7 @@ app.use("/api/sales-overview", salesOverviewRoutes);
 app.use("/api/daily-orders", dailyOrdersRoutes);
 app.use("/api/order-status", orderStatusRoutes);
 app.use("/api/orders", ordersRoutes);
+app.use("/api/channel-performance", channelPerformanceRoutes);
 
 console.log(
   "API dökümantasyonuna http://localhost:5000/api-docs adresinden erişebilirsiniz"
