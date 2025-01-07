@@ -3,10 +3,10 @@
  * @returns { Promise<void> }
  */
 exports.seed = async function (knex) {
-  // Mevcut verileri temizle
+  // Varsa eski verileri temizle
   await knex("orders").del();
 
-  // Yeni verileri ekle
+  // Yeni verileri ekleme
   await knex("orders").insert([
     {
       order_id: "ORD001",

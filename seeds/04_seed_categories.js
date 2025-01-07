@@ -6,7 +6,7 @@ exports.seed = async function (knex) {
   // Mevcut verileri temizle
   await knex("categories").del();
 
-  // Yeni verileri ekle
+  // Yeni verileri ekleme
   await knex("categories").insert([
     { name: "Elektronik", value: 4500 },
     { name: "Aksesuar", value: 3200 },
