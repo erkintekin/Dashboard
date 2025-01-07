@@ -1,14 +1,23 @@
 const jwt = require("jsonwebtoken");
 
 const authenticateToken = (req, res, next) => {
-  const token = req.headers["authorization"]?.split(" ")[1];
-  if (!token) return res.status(401).json({ message: "Erişim tokenı eksik" });
+  const token = req.header("Authorization")?.split(" ")[1]; // Bearer token
+  if (!token) {
+    return res
+      .status(401)
+      .json({ message: "Yetkilendirme hatası: Token bulunamadı" });
+  }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) return res.status(403).json({ message: "Yanlış token" });
-    req.user = user;
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Token doğrulama
+    req.user = {
+      id: decoded.id, // Kullanıcı ID'si
+      role_id: decoded.role_id, // Kullanıcı rolü
+    };
     next();
-  });
+  } catch (err) {
+    res.status(403).json({ message: "Geçersiz veya süresi dolmuş token" });
+  }
 };
 
 module.exports = authenticateToken;
