@@ -22,7 +22,7 @@ exports.createProduct = async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ message: "Internal servis hatası", error: err.message });
+      .json({ message: "Internal server hatası", error: err.message });
   }
 };
 
@@ -47,7 +47,7 @@ exports.getProducts = async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ message: "Internal servis hatası", error: err.message });
+      .json({ message: "Internal server hatası", error: err.message });
   }
 };
 
@@ -63,7 +63,7 @@ exports.getProductById = async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ message: "Internal servis hatası", error: err.message });
+      .json({ message: "Internal server hatası", error: err.message });
   }
 };
 
@@ -82,7 +82,7 @@ exports.editProduct = async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ message: "Internal servis hatası", error: err.message });
+      .json({ message: "Internal server hatası", error: err.message });
   }
 };
 
