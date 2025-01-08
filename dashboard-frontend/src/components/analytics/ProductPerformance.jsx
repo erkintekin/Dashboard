@@ -17,8 +17,13 @@ const ProductPerformance = () => {
 
   // Backend'den veri çekme
   useEffect(() => {
+    const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:5000/api/product-performance") // API Endpoint'i
+      .get("http://localhost:5000/api/product-performance/performance", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }) // API Endpoint'i
       .then((response) => {
         setProductPerformanceData(response.data);
       })

@@ -8,6 +8,7 @@ import {
   ArrowDownRight,
   ArrowUpRight,
 } from "lucide-react";
+import axios from "axios";
 
 const iconMap = {
   DollarSign: DollarSign,
@@ -21,12 +22,19 @@ const OverviewCards = () => {
 
   // Backend'den veri çekme
   useEffect(() => {
-    fetch("http://localhost:5000/api/overview")
-      .then((response) => response.json())
-      .then((data) => setOverviewData(data))
-      .catch((error) =>
-        console.error("Overview datası fetchlenirken hata alındı:", error)
-      );
+    const token = localStorage.getItem("token");
+    axios
+      .get("http://localhost:5000/api/overview/overviews", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }) // API Endpoint'i
+      .then((response) => {
+        setOverviewData(response.data);
+      })
+      .catch((error) => {
+        console.error("Genel bakış datası fetchlenirken hata alındı:", error);
+      });
   }, []);
 
   return (

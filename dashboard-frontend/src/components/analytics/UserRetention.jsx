@@ -17,8 +17,13 @@ const UserRetention = () => {
 
   // Backend'den veri çekme
   useEffect(() => {
+    const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:5000/api/user-retention") // API Endpoint'i
+      .get("http://localhost:5000/api/user-retention/retention", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }) // API Endpoint'i
       .then((response) => {
         setUserRetentionData(response.data);
       })

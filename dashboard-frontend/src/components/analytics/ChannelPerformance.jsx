@@ -24,8 +24,13 @@ const ChannelPerformance = () => {
 
   // Backend'den veri çekme
   useEffect(() => {
+    const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:5000/api/channel-performance") // API Endpoint'i
+      .get("http://localhost:5000/api/channel-performance/channelperf", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }) // API Endpoint'i
       .then((response) => {
         setChannelData(response.data);
       })

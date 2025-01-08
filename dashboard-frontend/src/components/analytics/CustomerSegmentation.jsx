@@ -17,8 +17,13 @@ const CustomerSegmentation = () => {
 
   // Backend'den veri çekme
   useEffect(() => {
+    const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:5000/api/customer-segmentation") // API Endpoint'i
+      .get("http://localhost:5000/api/customer-segmentation/customerseg", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }) // API Endpoint'i
       .then((response) => {
         setSegmentationData(response.data);
       })
