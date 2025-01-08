@@ -15,24 +15,23 @@ const DailySalesTrend = () => {
   const [dailySalesData, setDailySalesData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Backend'den veriyi çekmek için useEffect kullanımı
+  // Backend'den veri çekme
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // API'den veriyi çekme
-        const response = await axios.get("/api/sales-daily/daily-trend");
-        setDailySalesData(response.data); // API'den gelen veriyi state'e set etme
+    const token = localStorage.getItem("token");
+    axios
+      .get("http://localhost:5000/api/sales-daily/daily-trend", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }) // API Endpoint'i
+      .then((response) => {
+        setDailySalesData(response.data);
         setLoading(false);
-      } catch (error) {
-        console.error(
-          "Günlük satış verileri fetchlenirken hata alındı:",
-          error
-        );
+      })
+      .catch((error) => {
+        console.error("Satış eğrisi datası fetchlenirken hata alındı:", error);
         setLoading(false);
-      }
-    };
-
-    fetchData();
+      });
   }, []);
 
   if (loading) {

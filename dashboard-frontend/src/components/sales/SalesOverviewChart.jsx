@@ -18,18 +18,24 @@ const SalesOverviewChart = () => {
 
   // Backend'den veriyi çekmek için useEffect kullanımı
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/api/sales-overview/sales-chart");
-        setMonthlySalesData(response.data); // API'den gelen veriyi state'e set etme
+    const token = localStorage.getItem("token");
+    axios
+      .get("http://localhost:5000/api/sales-overview/sales-chart", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }) // API Endpoint'i
+      .then((response) => {
+        setMonthlySalesData(response.data);
         setLoading(false);
-      } catch (error) {
-        console.error("Genel satış verileri fetchlenirken hata alındı:", error);
+      })
+      .catch((error) => {
+        console.error(
+          "Kategoriye göre satış datası fetchlenirken hata alındı:",
+          error
+        );
         setLoading(false);
-      }
-    };
-
-    fetchData();
+      });
   }, []);
 
   if (loading) {
