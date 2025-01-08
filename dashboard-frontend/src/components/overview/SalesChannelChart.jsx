@@ -20,8 +20,13 @@ const SalesChannelChart = () => {
 
   // Backend'den veri çekme
   useEffect(() => {
+    const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:5000/api/sales-channels") // Backend API Endpoint'i
+      .get("http://localhost:5000/api/sales-channels/channels", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }) // Backend API Endpoint'i
       .then((response) => {
         setSalesChannelData(response.data);
       })

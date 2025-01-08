@@ -17,8 +17,13 @@ const OrderDistribution = () => {
 
   // Backend'den veri çekme
   useEffect(() => {
+    const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:5000/api/order-status") // API Endpoint'i
+      .get("http://localhost:5000/api/order-status/orderdist", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }) // API Endpoint'i
       .then((response) => {
         setOrderStatusData(response.data);
       })

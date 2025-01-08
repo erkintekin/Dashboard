@@ -8,10 +8,14 @@ const OrdersTable = () => {
   const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
 
-  // Backend'den veri çekme
   useEffect(() => {
+    const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:5000/api/orders") // API Endpoint'i
+      .get("http://localhost:5000/api/orders/totalorders", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         setOrders(response.data);
         setFilteredOrders(response.data);
@@ -57,64 +61,24 @@ const OrdersTable = () => {
         <table className="min-w-full divide-y divide-gray-700">
           <thead>
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Sipariş ID
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Müşteri
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Total
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Statü
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Tarih
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Actionlar
-              </th>
+              <th>Sipariş ID</th>
+              <th>Müşteri</th>
+              <th>Toplam</th>
+              <th>Statü</th>
+              <th>Tarih</th>
+              <th>Aksiyonlar</th>
             </tr>
           </thead>
-
-          <tbody className="divide divide-gray-700">
+          <tbody>
             {filteredOrders.map((order) => (
-              <motion.tr
-                key={order.order_id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100">
-                  {order.order_id}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100">
-                  {order.customer}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100">
-                  ${order.total.toFixed(2)}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                  <span
-                    className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      order.status === "Delivered"
-                        ? "bg-green-100 text-green-800"
-                        : order.status === "Processing"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : order.status === "Shipped"
-                        ? "bg-blue-100 text-blue-800"
-                        : "bg-red-100 text-red-800"
-                    }`}
-                  >
-                    {order.status}
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                  {order.date}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                  <button className="text-indigo-400 hover:text-indigo-300 mr-2">
+              <motion.tr key={order.order_id}>
+                <td>{order.order_id}</td>
+                <td>{order.customer}</td>
+                <td>${parseFloat(order.total).toFixed(2)}</td>
+                <td>{order.status}</td>
+                <td>{new Date(order.date).toLocaleDateString("tr-TR")}</td>
+                <td>
+                  <button>
                     <Eye size={18} />
                   </button>
                 </td>

@@ -9,16 +9,21 @@ const ProductsTable = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
-    // Backend'den ürünleri alma
+    const token = localStorage.getItem("token"); // Token'ı localStorage'dan alma
     axios
-      .get("http://localhost:5000/api/products/list")
+      .get("http://localhost:5000/api/products/list", {
+        headers: {
+          Authorization: `Bearer ${token}`, // Bearer Token'ı header'a ekleme
+        },
+      })
       .then((response) => {
+        console.log("Gelen ürünler:", response.data); // Gelen veriyi kontrol etme
         setProducts(response.data);
         setFilteredProducts(response.data);
       })
-      .catch((error) =>
-        console.error("Ürün verileri fetchlenirken hata alındı:", error)
-      );
+      .catch((error) => {
+        console.error("Ürün verileri fetchlenirken hata alındı:", error);
+      });
   }, []);
 
   const handleSearch = (e) => {
@@ -56,7 +61,6 @@ const ProductsTable = () => {
               <th>Kategori</th>
               <th>Fiyat</th>
               <th>Stok</th>
-              <th>Satış</th>
               <th>Aksiyon</th>
             </tr>
           </thead>
@@ -65,9 +69,8 @@ const ProductsTable = () => {
               <motion.tr key={product.id}>
                 <td>{product.name}</td>
                 <td>{product.category}</td>
-                <td>${product.price.toFixed(2)}</td>
+                <td>${parseFloat(product.price).toFixed(2)}</td>
                 <td>{product.stock}</td>
-                <td>{product.sales}</td>
                 <td>
                   <button className="text-indigo-400">
                     <Edit size={18} />

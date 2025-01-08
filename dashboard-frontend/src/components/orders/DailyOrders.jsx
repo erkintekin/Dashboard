@@ -17,8 +17,13 @@ const DailyOrders = () => {
 
   // Backend'den veri çekme
   useEffect(() => {
+    const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:5000/api/daily-orders") // API Endpoint'i
+      .get("http://localhost:5000/api/daily-orders/daily", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }) // API Endpoint'i
       .then((response) => {
         setDailyOrdersData(response.data);
       })

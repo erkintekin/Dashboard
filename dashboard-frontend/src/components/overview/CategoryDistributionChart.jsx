@@ -13,13 +13,19 @@ import axios from "axios";
 const COLORS = ["#6366F1", "#8B5CF6", "#EC4899", "#10B981", "#F59E0B"];
 
 const CategoryDistributionChart = () => {
-  const [categoryData, setCategoryData] = useState([]);
+  const [categoryData, setCategoryData] = useState([]); // Doğru state tanımı
 
   // Backend'den veri çekme
   useEffect(() => {
+    const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:5000/api/categories") // Backend API endpoint'i
+      .get("http://localhost:5000/api/categories/distribution", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
+        console.log("Kategori verileri:", response.data); // Gelen veriyi kontrol edin
         setCategoryData(response.data);
       })
       .catch((error) => {

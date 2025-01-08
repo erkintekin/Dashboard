@@ -16,8 +16,13 @@ const SalesOverviewChart = () => {
 
   // Backend'den veri çekme
   useEffect(() => {
+    const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:5000/api/sales-overview") // Backend API Endpoint'i
+      .get("http://localhost:5000/api/sales-overview/sales-chart", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         setSalesData(response.data);
       })
