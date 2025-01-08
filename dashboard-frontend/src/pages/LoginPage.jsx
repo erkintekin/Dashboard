@@ -1,6 +1,7 @@
 import React, { useState } from "react"; // React ve useState import edildi
 import { useNavigate } from "react-router-dom"; // useNavigate import edildi
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const LoginPage = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("");
@@ -23,11 +24,31 @@ const LoginPage = ({ setIsAuthenticated }) => {
       // Giriş durumunu güncelle
       setIsAuthenticated(true);
 
-      // Başarıyla giriş yapıldıktan sonra yönlendir
+      toast.success("Giriş başarılı!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+
+      // Başarıyla giriş yapıldıktan sonra yönlendirme
       navigate("/");
     } catch (error) {
       console.error("Giriş sırasında hata oluştu:", error);
-      alert("Giriş başarısız. Lütfen bilgilerinizi kontrol edin.");
+      toast.error("Giriş başarısız. Lütfen bilgilerinizi kontrol edin.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
 

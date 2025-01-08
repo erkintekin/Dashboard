@@ -1,5 +1,7 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Sidebar from "./components/common/Sidebar";
 
@@ -48,84 +50,87 @@ function App() {
   };
 
   return (
-    <Routes>
-      {/* Login Sayfası */}
-      <Route
-        path="/login"
-        element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}
-      />
-      <Route
-        path="/"
-        element={
-          <PrivateRoute>
-            <PrivateLayout>
-              <OverviewPage />
-            </PrivateLayout>
-          </PrivateRoute>
-        }
-      />
+    <>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <Routes>
+        {/* Login Sayfası */}
+        <Route
+          path="/login"
+          element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}
+        />
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <PrivateLayout>
+                <OverviewPage />
+              </PrivateLayout>
+            </PrivateRoute>
+          }
+        />
 
-      <Route
-        path="/products"
-        element={
-          <PrivateRoute>
-            <PrivateLayout>
-              <ProductsPage />
-            </PrivateLayout>
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/users"
-        element={
-          <PrivateRoute>
-            <PrivateLayout>
-              <UsersPage />
-            </PrivateLayout>
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/sales"
-        element={
-          <PrivateRoute>
-            <PrivateLayout>
-              <SalesPage />
-            </PrivateLayout>
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/orders"
-        element={
-          <PrivateRoute>
-            <PrivateLayout>
-              <OrdersPage />
-            </PrivateLayout>
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/analytics"
-        element={
-          <PrivateRoute>
-            <PrivateLayout>
-              <AnalyticsPage />
-            </PrivateLayout>
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/settings"
-        element={
-          <PrivateRoute>
-            <PrivateLayout>
-              <SettingsPage />
-            </PrivateLayout>
-          </PrivateRoute>
-        }
-      />
-    </Routes>
+        <Route
+          path="/products"
+          element={
+            <PrivateRoute>
+              <PrivateLayout>
+                <ProductsPage />
+              </PrivateLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <PrivateRoute>
+              <PrivateLayout>
+                <UsersPage />
+              </PrivateLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/sales"
+          element={
+            <PrivateRoute>
+              <PrivateLayout>
+                <SalesPage />
+              </PrivateLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            <PrivateRoute>
+              <PrivateLayout>
+                <OrdersPage />
+              </PrivateLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/analytics"
+          element={
+            <PrivateRoute>
+              <PrivateLayout>
+                <AnalyticsPage />
+              </PrivateLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <PrivateRoute>
+              <PrivateLayout>
+                <SettingsPage />
+              </PrivateLayout>
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+    </>
   );
 }
 
