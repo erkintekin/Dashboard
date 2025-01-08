@@ -26,7 +26,7 @@ function App() {
   // Yüklenme sırasında gösterilecek mesaj
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-900 text-gray-100">
+      <div className="flex items-center justify-center min-h-screen bg-gray-900 text-gray-100">
         <h1>Loading...</h1>
       </div>
     );
@@ -40,9 +40,9 @@ function App() {
   // PrivateLayout bileşeni
   const PrivateLayout = ({ children }) => {
     return (
-      <div className="flex h-screen bg-gray-900 text-gray-100 overflow-hidden">
+      <div className="flex min-h-screen bg-gray-900 text-gray-100">
         <Sidebar />
-        <div className="flex-1">{children}</div>
+        <div className="flex-1 overflow-y-auto">{children}</div>
       </div>
     );
   };

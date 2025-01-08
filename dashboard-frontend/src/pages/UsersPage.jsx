@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { UserCheck, UserPlus, UsersIcon, UserX } from "lucide-react";
+import axios from "axios";
 
 import Header from "../components/common/Header";
 import StatCard from "../components/common/StatCard";
@@ -19,22 +20,26 @@ const UsersPage = () => {
 
   // Backend'den veri çekme
   useEffect(() => {
-    fetch("http://localhost:5000/api/user-stats")
-      .then((response) => response.json())
-      .then((data) => {
+    const token = localStorage.getItem("token");
+    axios
+      .get("http://localhost:5000/api/user-stats/userstats", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }) // API Endpoint'i
+      .then((response) => {
+        const data = response.data;
         setUserStats({
-          totalUsers: data.total_users.toLocaleString(),
+          totalUsers: data.total_users,
           newUsersToday: data.new_users_today,
-          activeUsers: data.active_users.toLocaleString(),
-          churnRate: `${data.churn_rate.toFixed(1)}%`,
+          activeUsers: data.active_users,
+          churnRate: `${data.churn_rate}%`,
         });
       })
-      .catch((error) =>
-        console.error(
-          "Kullanıcı istatistikleri fetchlenirken hata alındı:",
-          error
-        )
-      );
+      .catch((error) => {
+        console.error("Kullanıcı istatistikleri datası fetchlenemedi:", error);
+        setLoading(false);
+      });
   }, []);
 
   return (

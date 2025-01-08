@@ -11,24 +11,34 @@ const UsersTable = ({ currentUserRole }) => {
 
   // Backend'den kullanıcı verilerini alma
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get("/api/users");
+    const token = localStorage.getItem("token");
+    axios
+      .get("http://localhost:5000/api/users", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
         setUsers(response.data);
-        setFilteredUsers(response.data);
+        setFilteredUsers(response.data); // filteredUsers ile senkronize etme
         setLoading(false);
-      } catch (error) {
-        console.error("Veriler alınırken hata oluştu:", error);
+      })
+      .catch((error) => {
+        console.error("Kullanıcı datası fetchlenemedi:", error);
         setLoading(false);
-      }
-    };
-
-    fetchUsers();
+      });
   }, []);
 
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
+
+    if (!term) {
+      // Eğer arama terimi boşsa, tüm kullanıcıları gösterme
+      setFilteredUsers(users);
+      return;
+    }
+
     const filtered = users.filter(
       (user) =>
         user.name.toLowerCase().includes(term) ||

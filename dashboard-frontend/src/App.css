@@ -1,8 +1,22 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  width: 100%; /* Tam genişlik */
+  max-width: 1280px; /* Büyük ekranlar için genişlik sınırı */
+  margin: 0 auto; /* Ortalamak için */
+  padding: 2rem; /* İçerik için boşluk */
   text-align: center;
+  box-sizing: border-box; /* Padding'i genişlik hesaplamasına dahil eder */
+  overflow: hidden; /* Yatay kaydırmayı engeller */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden; /* Yatay kaydırmayı engeller */
+  overflow-y: auto; /* Dikey kaydırmayı etkinleştirir */
+  font-family: 'Inter', sans-serif; /* Tailwind ile uyumlu font */
+  background-color: #1a202c; /* Tailwind 'bg-gray-900' ile uyumlu renk */
 }
 
 .logo {
@@ -11,9 +25,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -39,4 +55,10 @@
 
 .read-the-docs {
   color: #888;
+}
+
+@media (max-width: 768px) {
+  #root {
+    padding: 1rem; /* Küçük ekranlar için daha az padding */
+  }
 }

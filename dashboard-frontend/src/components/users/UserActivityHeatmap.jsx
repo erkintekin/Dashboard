@@ -18,18 +18,21 @@ const UserActivityHeatmap = () => {
 
   // Backend'den veriyi çekmek için useEffect kullanımı
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/api/activities/user-activity");
-        setUserActivityData(response.data); // API'den gelen veriyi state'e set etme
+    const token = localStorage.getItem("token");
+    axios
+      .get("http://localhost:5000/api/user-activity/activities", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }) // API Endpoint'i
+      .then((response) => {
+        setUserActivityData(response.data);
         setLoading(false);
-      } catch (error) {
-        console.error("Aktivite verileri fetchlenirken hata alındı:", error);
+      })
+      .catch((error) => {
+        console.error("Kullanıcı aktivitesi datası fetchlenemedi:", error);
         setLoading(false);
-      }
-    };
-
-    fetchData();
+      });
   }, []);
 
   if (loading) {

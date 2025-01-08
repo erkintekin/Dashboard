@@ -17,19 +17,21 @@ const UserGrowthChart = () => {
 
   // Backend'den kullanıcı büyüme verilerini al
   useEffect(() => {
-    const fetchUserGrowthData = async () => {
-      try {
-        // Yeni rota: /api/user-growth/growth
-        const response = await axios.get("/api/user-growth/growth");
+    const token = localStorage.getItem("token");
+    axios
+      .get("http://localhost:5000/api/user-growth/growth", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }) // API Endpoint'i
+      .then((response) => {
         setUserGrowthData(response.data);
         setLoading(false);
-      } catch (error) {
-        console.error("Büyüme verileri fetchlenirken hata alındı:", error);
+      })
+      .catch((error) => {
+        console.error("Büyüme datası fetchlenemedi:", error);
         setLoading(false);
-      }
-    };
-
-    fetchUserGrowthData();
+      });
   }, []);
 
   if (loading) {

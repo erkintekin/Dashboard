@@ -18,18 +18,21 @@ const UserDemographicsChart = () => {
 
   // Backend'den veriyi çekmek için useEffect kullanımı
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/api/demography/user-demographics");
-        setUserDemographicsData(response.data); // API'den gelen veriyi state'e set etme
+    const token = localStorage.getItem("token");
+    axios
+      .get("http://localhost:5000/api/user-demographics/demography", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }) // API Endpoint'i
+      .then((response) => {
+        setUserDemographicsData(response.data);
         setLoading(false);
-      } catch (error) {
-        console.error("Demografik veriler fetchlenirken hata oluştu:", error);
+      })
+      .catch((error) => {
+        console.error("Demografi datası fetchlenemedi:", error);
         setLoading(false);
-      }
-    };
-
-    fetchData();
+      });
   }, []);
 
   if (loading) {
