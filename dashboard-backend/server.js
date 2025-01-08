@@ -29,6 +29,7 @@ const salesOverviewChartRoutes = require("./src/routes/salesOverviewChartRoutes"
 const userActivityRoutes = require("./src/routes/userActivityRoutes");
 const userDemographicsRoutes = require("./src/routes/userDemographicsRoutes");
 const userGrowthRoutes = require("./src/routes/userGrowthRoutes");
+const cartRoutes = require("./src/routes/cartRoutes");
 
 dotenv.config();
 const app = express();
@@ -61,6 +62,7 @@ app.use("/api/sales-overview", salesOverviewChartRoutes);
 app.use("/api/user-activity", userActivityRoutes);
 app.use("/api/user-demographics", userDemographicsRoutes);
 app.use("/api/user-growth", userGrowthRoutes);
+app.use("/api/cart", cartRoutes);
 
 console.log(
   "API dökümantasyonuna http://localhost:5000/api-docs adresinden erişebilirsiniz"

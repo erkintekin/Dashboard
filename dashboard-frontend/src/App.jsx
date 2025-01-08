@@ -13,6 +13,7 @@ import SalesPage from "./pages/SalesPage";
 import OrdersPage from "./pages/OrdersPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import SettingsPage from "./pages/SettingsPage";
+import CommercePage from "./pages/CommercePage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Kullanıcı giriş durumu
@@ -151,6 +152,16 @@ function App() {
             <PrivateRoute allowedRoles={[1, 2, 3]}>
               <PrivateLayout>
                 <SettingsPage />
+              </PrivateLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/shop"
+          element={
+            <PrivateRoute allowedRoles={[1, 2, 3]}>
+              <PrivateLayout>
+                <CommercePage />
               </PrivateLayout>
             </PrivateRoute>
           }

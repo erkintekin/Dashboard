@@ -63,6 +63,13 @@ const SIDEBAR_ITEMS = [
     href: "/settings",
     roles: [1, 2, 3],
   },
+  {
+    name: "All Items",
+    icon: ShoppingBag,
+    color: "#8B5CF6",
+    href: "/shop",
+    roles: [1, 2, 3],
+  },
 ];
 
 const Sidebar = ({ userRole }) => {
