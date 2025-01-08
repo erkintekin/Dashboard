@@ -4,6 +4,6 @@ const { getRevenueData } = require("../controllers/revenueController");
 const authenticateToken = require("../middleware/authMiddleware");
 
 // Gelir verilerini döndürme
-router.get("/revenue", authenticateToken, getRevenueData);
+router.get("/revenues", authenticateToken, getRevenueData);
 
 module.exports = router;
