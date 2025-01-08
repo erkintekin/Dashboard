@@ -1,17 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const {
-  getSalesByCategory,
-} = require("../controllers/salesByCategoryController");
+  getUserDemographics,
+} = require("../controllers/userDemographicsController");
 const authenticateToken = require("../middleware/authMiddleware");
 const allowRoles = require("../middleware/roleMiddleware");
 
-// Kategorilere göre satış verilerini döndürme
+// Kullanıcı demografik verilerini döndüren endpoint
 router.get(
-  "/by-category",
+  "/demography",
   authenticateToken,
   allowRoles(1, 2),
-  getSalesByCategory
+  getUserDemographics
 );
 
 module.exports = router;

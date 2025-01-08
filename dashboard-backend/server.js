@@ -1,8 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const swaggerUI = require("swagger-ui-express");
+const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./src/config/swagger");
+
 const authRoutes = require("./src/routes/authRoutes");
 const userRoutes = require("./src/routes/userRoutes");
 const productRoutes = require("./src/routes/productRoutes");
@@ -25,13 +26,16 @@ const userStatsRoutes = require("./src/routes/userStatsRoutes");
 const salesDailyRoutes = require("./src/routes/salesDailyRoutes");
 const salesByCategoryRoutes = require("./src/routes/salesByCategoryRoutes");
 const salesOverviewChartRoutes = require("./src/routes/salesOverviewChartRoutes");
+const userActivityRoutes = require("./src/routes/userActivityRoutes");
+const userDemographicsRoutes = require("./src/routes/userDemographicsRoutes");
+const userGrowthRoutes = require("./src/routes/userGrowthRoutes");
 
 dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api-docs", swaggerUI.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
@@ -54,6 +58,9 @@ app.use("/api/user-stats", userStatsRoutes);
 app.use("/api/sales-daily", salesDailyRoutes);
 app.use("/api/sales-by-category", salesByCategoryRoutes);
 app.use("/api/sales-overview", salesOverviewChartRoutes);
+app.use("/api/user-activity", userActivityRoutes);
+app.use("/api/user-demographics", userDemographicsRoutes);
+app.use("/api/user-growth", userGrowthRoutes);
 
 console.log(
   "API dökümantasyonuna http://localhost:5000/api-docs adresinden erişebilirsiniz"

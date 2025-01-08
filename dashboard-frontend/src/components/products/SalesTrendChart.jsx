@@ -17,10 +17,21 @@ const SalesTrendChart = () => {
 
   // Backend'den veri çekme
   useEffect(() => {
+    const token = localStorage.getItem("token"); // Token'ı localStorage'dan alın
+
     axios
-      .get("http://localhost:5000/api/sales") // Backend API endpoint'i
+      .get("http://localhost:5000/api/sales/totalsales", {
+        headers: {
+          Authorization: `Bearer ${token}`, // Authorization header'ı ekleyin
+        },
+      })
       .then((response) => {
-        setSalesData(response.data);
+        console.log("API'den gelen veri:", response.data);
+        const formattedData = response.data.map((item) => ({
+          month: item.month,
+          sales: item.sales,
+        }));
+        setSalesData(formattedData);
       })
       .catch((error) => {
         console.error("Satış verisi fetchlenirken hata alındı:", error);

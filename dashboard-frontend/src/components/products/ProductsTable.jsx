@@ -11,7 +11,7 @@ const ProductsTable = () => {
   useEffect(() => {
     // Backend'den ürünleri alma
     axios
-      .get("http://localhost:5000/api/products")
+      .get("http://localhost:5000/api/products/list")
       .then((response) => {
         setProducts(response.data);
         setFilteredProducts(response.data);

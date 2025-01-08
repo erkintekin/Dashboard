@@ -3,7 +3,7 @@ const {
   createProduct,
   getProducts,
   getProductById,
-  updateProduct,
+  editProduct,
   deleteProduct,
 } = require("../controllers/productController");
 const authenticateToken = require("../middleware/authMiddleware");
@@ -15,7 +15,7 @@ const router = express.Router();
 router.get("/list", authenticateToken, getProducts); // Tüm ürünleri listeleme
 router.get("/:id", authenticateToken, getProductById); // Belirli bir ürünü ID ile getirme
 router.post("/add", authenticateToken, allowRoles(1, 2), createProduct); // Ürün ekleme
-router.put("/edit/:id", authenticateToken, allowRoles(1, 2), updateProduct); // Ürün güncelleme
+router.put("/edit/:id", authenticateToken, allowRoles(1, 2), editProduct); // Ürün güncelleme
 router.delete(
   "/delete/:id",
   authenticateToken,

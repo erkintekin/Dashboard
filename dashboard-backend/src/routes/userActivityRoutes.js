@@ -1,17 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const {
-  getSalesByCategory,
-} = require("../controllers/salesByCategoryController");
+  getUserActivityHeatmap,
+} = require("../controllers/userActivityController");
 const authenticateToken = require("../middleware/authMiddleware");
 const allowRoles = require("../middleware/roleMiddleware");
 
-// Kategorilere göre satış verilerini döndürme
+// Kullanıcı aktivitesi heatmap verilerini döndürme
 router.get(
-  "/by-category",
+  "/activities",
   authenticateToken,
   allowRoles(1, 2),
-  getSalesByCategory
+  getUserActivityHeatmap
 );
 
 module.exports = router;

@@ -4,9 +4,17 @@ const bcrypt = require("bcrypt");
 // SuperAdmin için kullanıcı listeleme
 exports.getUsers = async (req, res) => {
   try {
-    const users = await knex("users").select("id", "name", "email", "role_id");
+    const users = await knex("users")
+      .join("roles", "users.role_id", "roles.id") // Rolleri birleştir
+      .select(
+        "users.id",
+        "users.name",
+        "users.email",
+        "roles.name as role",
+        "users.isActive"
+      );
     res.json(users);
-  } catch {
+  } catch (err) {
     res
       .status(500)
       .json({ message: "Internal server hatası", error: err.message });
@@ -39,7 +47,7 @@ exports.deleteUser = async (req, res) => {
   try {
     await knex("users").where({ id }).del();
     res.json({ message: "Kullanıcı başarıyla silindi" });
-  } catch {
+  } catch (err) {
     res
       .status(500)
       .json({ message: "Internal servis hatası", error: err.message });
