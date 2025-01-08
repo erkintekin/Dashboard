@@ -27,7 +27,7 @@ function App() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-900 text-gray-100">
-        <h1>Loading...</h1>
+        <h1>Yükleniyor..</h1>
       </div>
     );
   }

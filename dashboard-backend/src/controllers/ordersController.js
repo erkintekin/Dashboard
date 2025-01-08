@@ -1,3 +1,5 @@
+const knex = require("../config/knex");
+
 exports.getOrders = async (req, res) => {
   try {
     const orders = await knex("orders")

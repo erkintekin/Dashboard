@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { CheckCircle, Clock, DollarSign, ShoppingBag } from "lucide-react";
 import { motion } from "framer-motion";
+import axios from "axios";
 
 import Header from "../components/common/Header";
 import StatCard from "../components/common/StatCard";
@@ -16,11 +17,16 @@ const OrdersPage = () => {
     totalRevenue: "$0",
   });
 
-  // Backend'den veri çekme
   useEffect(() => {
-    fetch("http://localhost:5000/api/order-stats")
-      .then((response) => response.json())
-      .then((data) => {
+    const token = localStorage.getItem("token");
+    axios
+      .get("http://localhost:5000/api/order-stats/orderstats", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }) // API Endpoint'i
+      .then((response) => {
+        const data = response.data;
         setOrderStats({
           totalOrders: data.total_orders.toLocaleString(),
           pendingOrders: data.pending_orders.toLocaleString(),
@@ -28,12 +34,10 @@ const OrdersPage = () => {
           totalRevenue: `$${data.total_revenue.toLocaleString()}`,
         });
       })
-      .catch((error) =>
-        console.error(
-          "Sipariş istatistikleri fetchlenirken hata alındı:",
-          error
-        )
-      );
+      .catch((error) => {
+        console.error("Kullanıcı istatistikleri datası fetchlenemedi:", error);
+        setLoading(false);
+      });
   }, []);
 
   return (
