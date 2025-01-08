@@ -1,5 +1,5 @@
-import React, { useState } from "react"; // React ve useState import edildi
-import { useNavigate } from "react-router-dom"; // useNavigate import edildi
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -18,10 +18,7 @@ const LoginPage = ({ setIsAuthenticated }) => {
         }
       );
 
-      // Token'ı localStorage'a kaydet
       localStorage.setItem("token", response.data.token);
-
-      // Giriş durumunu güncelle
       setIsAuthenticated(true);
 
       toast.success("Giriş başarılı!", {
@@ -35,7 +32,6 @@ const LoginPage = ({ setIsAuthenticated }) => {
         theme: "dark",
       });
 
-      // Başarıyla giriş yapıldıktan sonra yönlendirme
       navigate("/");
     } catch (error) {
       console.error("Giriş sırasında hata oluştu:", error);
@@ -53,34 +49,48 @@ const LoginPage = ({ setIsAuthenticated }) => {
   };
 
   return (
-    <div
-      className="fixed inset-0 flex flex-col items-center justify-center bg-gray-900"
-      style={{
-        zIndex: 1000, // Sayfayı en öne getir
-        position: "relative", // Üstte görünmesini sağlar
-      }}
-    >
-      <h1 className="text-3xl font-bold text-gray-100 mb-6">Giriş Yap</h1>
-      <input
-        type="email"
-        placeholder="E-posta"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="mb-4 p-2 rounded bg-gray-800 text-gray-100"
-      />
-      <input
-        type="password"
-        placeholder="Şifre"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className="mb-4 p-2 rounded bg-gray-800 text-gray-100"
-      />
-      <button
-        onClick={handleLogin}
-        className="bg-blue-500 text-gray-100 px-4 py-2 rounded"
-      >
-        Giriş Yap
-      </button>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-800 via-gray-900 to-black">
+      <div className="w-full max-w-md bg-gray-800 shadow-lg rounded-lg p-8 space-y-6">
+        <h1 className="text-2xl font-bold text-center text-gray-100">
+          Giriş Yap
+        </h1>
+        <div>
+          <label className="block text-gray-400 text-sm font-medium mb-2">
+            E-posta
+          </label>
+          <input
+            type="email"
+            placeholder="E-posta"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-3 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-400 text-sm font-medium mb-2">
+            Şifre
+          </label>
+          <input
+            type="password"
+            placeholder="Şifre"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-3 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <button
+          onClick={handleLogin}
+          className="w-full bg-blue-600 text-gray-100 py-3 rounded hover:bg-blue-700 transition duration-300"
+        >
+          Giriş Yap
+        </button>
+        <p className="text-gray-400 text-sm text-center mt-4">
+          Şifrenizi mi unuttunuz?{" "}
+          <a href="/reset" className="text-blue-500 hover:underline">
+            Şifreyi Sıfırla
+          </a>
+        </p>
+      </div>
     </div>
   );
 };
