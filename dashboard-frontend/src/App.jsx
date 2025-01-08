@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 
 import Sidebar from "./components/common/Sidebar";
 
+import OrdersPage from "./pages/OrdersPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
 
       <Sidebar />
       <Routes>
+        <Route path="/orders" element={<OrdersPage />} />
         <Route path="/analytics" element={<AnalyticsPage />} />
       </Routes>
     </div>
