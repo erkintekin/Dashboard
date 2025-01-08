@@ -16,13 +16,24 @@ import SettingsPage from "./pages/SettingsPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Kullanıcı giriş durumu
+  const [userRole, setUserRole] = useState(null); // Kullanıcının rolü
   const [isLoading, setIsLoading] = useState(true); // Yüklenme durumu
 
-  // localStorage'dan token kontrolü
+  // Token kontrolü ve kullanıcı rolünü belirleme
   useEffect(() => {
     const token = localStorage.getItem("token");
-    setIsAuthenticated(!!token); // Token varsa true, yoksa false yap
-    setIsLoading(false); // Kontrol tamamlandıktan sonra yüklenmeyi durdur
+    if (token) {
+      try {
+        const decodedToken = JSON.parse(atob(token.split(".")[1])); // JWT decode
+        console.log("Decoded Token:", decodedToken);
+        setUserRole(decodedToken.role_id || null); // Varsayılan role null
+        setIsAuthenticated(true);
+      } catch (error) {
+        console.error("Token decoding hatası:", error);
+        setIsAuthenticated(false);
+      }
+    }
+    setIsLoading(false);
   }, []);
 
   // Yüklenme sırasında gösterilecek mesaj
@@ -35,15 +46,30 @@ function App() {
   }
 
   // PrivateRoute bileşeni
-  const PrivateRoute = ({ children }) => {
-    return isAuthenticated ? children : <Navigate to="/login" />;
+  const PrivateRoute = ({ children, allowedRoles }) => {
+    console.log("isAuthenticated:", isAuthenticated);
+    console.log("userRole:", userRole);
+    console.log("allowedRoles:", allowedRoles);
+
+    if (!isAuthenticated) {
+      console.log("Kullanıcı giriş yapmamış, /login'e yönlendiriliyor");
+      return <Navigate to="/login" />;
+    }
+
+    if (allowedRoles && !allowedRoles.includes(userRole)) {
+      console.log("Erişim izni yok, /settings'e yönlendiriliyor");
+      return <Navigate to="/settings" />;
+    }
+
+    return children;
   };
 
   // PrivateLayout bileşeni
   const PrivateLayout = ({ children }) => {
+    console.log("PrivateLayout userRole:", userRole); // Debugging için
     return (
       <div className="flex min-h-screen bg-gray-900 text-gray-100">
-        <Sidebar />
+        <Sidebar userRole={userRole} />
         <div className="flex-1 overflow-y-auto">{children}</div>
       </div>
     );
@@ -61,7 +87,7 @@ function App() {
         <Route
           path="/"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={[1, 2]}>
               <PrivateLayout>
                 <OverviewPage />
               </PrivateLayout>
@@ -72,7 +98,7 @@ function App() {
         <Route
           path="/products"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={[1, 2]}>
               <PrivateLayout>
                 <ProductsPage />
               </PrivateLayout>
@@ -82,7 +108,7 @@ function App() {
         <Route
           path="/users"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={[1, 2]}>
               <PrivateLayout>
                 <UsersPage />
               </PrivateLayout>
@@ -92,7 +118,7 @@ function App() {
         <Route
           path="/sales"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={[1, 2]}>
               <PrivateLayout>
                 <SalesPage />
               </PrivateLayout>
@@ -102,7 +128,7 @@ function App() {
         <Route
           path="/orders"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={[1, 2]}>
               <PrivateLayout>
                 <OrdersPage />
               </PrivateLayout>
@@ -112,7 +138,7 @@ function App() {
         <Route
           path="/analytics"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={[1, 2]}>
               <PrivateLayout>
                 <AnalyticsPage />
               </PrivateLayout>
@@ -122,7 +148,7 @@ function App() {
         <Route
           path="/settings"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={[1, 2, 3]}>
               <PrivateLayout>
                 <SettingsPage />
               </PrivateLayout>
