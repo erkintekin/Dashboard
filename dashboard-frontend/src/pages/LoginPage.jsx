@@ -33,6 +33,7 @@ const LoginPage = ({ setIsAuthenticated }) => {
       });
 
       navigate("/");
+      window.location.reload();
     } catch (error) {
       console.error("Giriş sırasında hata oluştu:", error);
       toast.error("Giriş başarısız. Lütfen bilgilerinizi kontrol edin.", {
