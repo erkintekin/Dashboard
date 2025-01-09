@@ -129,7 +129,7 @@ Hesap şifrelerini öğrenmek için
 Docker terminal'de aşağıdakı komutu girin
 
 ```bash
-docker exec -it postgres-container psql -U postgres -d role_management
+docker exec -it postgres_container psql -U postgres -d role_management
 ```
 Sonrasında tüm tablolar için aşağıdaki komutu yazın
 
