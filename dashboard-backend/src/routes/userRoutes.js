@@ -18,7 +18,7 @@ router.get("/", authenticateToken, allowRoles(1, 2), getUsers);
 // Kullanıcı bilgisi ID ile alma
 router.get("/:id", authenticateToken, restrictToSelf, getProfileById);
 
-// Profil güncelleme
+// Profil güncelleme (kendi profili)
 router.put("/profile", authenticateToken, updateProfile);
 
 // Kullanıcı oluşturma
@@ -27,7 +27,7 @@ router.post("/", authenticateToken, allowRoles(1), createUser);
 // Kullanıcı silme
 router.delete("/:id", authenticateToken, allowRoles(1), deleteUser);
 
-// Kullanıcı güncelleme
+// Kullanıcı güncelleme (SuperAdmin tarafından)
 router.put("/:id", authenticateToken, allowRoles(1), updateUser);
 
 module.exports = router;

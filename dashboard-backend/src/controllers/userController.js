@@ -72,6 +72,7 @@ exports.updateUser = async (req, res) => {
 
     res.json({ message: "Kullanıcı başarıyla güncellendi." });
   } catch (err) {
+    console.error("Kullanıcı güncellenirken hata oluştu:", err.message);
     res.status(500).json({
       message: "Kullanıcı güncellenirken bir hata oluştu.",
       error: err.message,
