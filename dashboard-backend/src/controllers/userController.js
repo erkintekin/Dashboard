@@ -72,11 +72,50 @@ exports.updateUser = async (req, res) => {
 
     res.json({ message: "Kullanıcı başarıyla güncellendi." });
   } catch (err) {
+    res.status(500).json({
+      message: "Kullanıcı güncellenirken bir hata oluştu.",
+      error: err.message,
+    });
+  }
+};
+
+exports.getProfileById = async (req, res) => {
+  console.log("getProfileById çalıştı, ID:", req.params.id);
+
+  const { id } = req.params; // Parametreden ID al
+  try {
+    const user = await knex("users")
+      .select("id", "name", "email")
+      .where({ id })
+      .first();
+
+    if (!user) {
+      return res.status(404).json({ message: "Kullanıcı bulunamadı." });
+    }
+
+    res.json(user);
+  } catch (err) {
+    console.error("Kullanıcı bilgisi alınırken hata:", err.message);
+    res.status(500).json({ message: "Bir hata oluştu.", error: err.message });
+  }
+};
+
+exports.updateProfile = async (req, res) => {
+  const { name, email } = req.body;
+  const userId = req.user.id; // Giriş yapan kullanıcının ID'si
+
+  try {
+    await knex("users").where({ id: userId }).update({ name, email });
+
+    const updatedUser = await knex("users")
+      .select("name", "email")
+      .where({ id: userId })
+      .first();
+
+    res.status(200).json(updatedUser);
+  } catch (err) {
     res
       .status(500)
-      .json({
-        message: "Kullanıcı güncellenirken bir hata oluştu.",
-        error: err.message,
-      });
+      .json({ message: "Profil güncellenemedi.", error: err.message });
   }
 };
