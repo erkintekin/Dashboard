@@ -76,6 +76,11 @@ npm install
 npx knex migrate:latest
 npx knex seed:run
 ```
+Eğer npm install çalıştırırken hata alıyorsanız PowerShell'den aşağıdaki komutu giriniz
+
+```bash
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
 
 ### 3. Backend'i Başlatma
 Backend sunucusunu başlatmak için:
