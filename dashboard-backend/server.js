@@ -69,3 +69,5 @@ console.log(
 );
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server ${PORT} portu üzerinden çalışıyor`));
+
+module.exports = app;
