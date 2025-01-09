@@ -7,11 +7,14 @@ exports.login = async (req, res) => {
 
   try {
     const user = await knex("users").where({ email }).first();
-    if (!user) return res.status(404).json({ message: "Kullanıcı bulunamadı" });
+    if (!user) {
+      return res.status(404).json({ message: "Kullanıcı bulunamadı" });
+    }
 
-    const okMatch = await bcrypt.compare(password, user.password);
-    if (!okMatch)
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
       return res.status(401).json({ message: "Eksik veya yanlış bilgi" });
+    }
 
     await knex("users").where({ id: user.id }).update({ isActive: true });
 
@@ -23,6 +26,7 @@ exports.login = async (req, res) => {
 
     res.json({ message: "Başarıyla giriş yapıldı", token });
   } catch (err) {
+    console.error("Hata oluştu:", err);
     res
       .status(500)
       .json({ message: "Internal server hatası", error: err.message });
@@ -36,6 +40,7 @@ exports.logout = async (req, res) => {
     await knex("users").where({ id: userId }).update({ isActive: false });
     res.json({ message: "Başarıyla çıkış yapıldı" });
   } catch (err) {
+    console.error("Hata oluştu:", err);
     res
       .status(500)
       .json({ message: "Çıkış sırasında hata oluştu", error: err.message });
