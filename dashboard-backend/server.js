@@ -1,8 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const swaggerUi = require("swagger-ui-express");
-const swaggerSpec = require("./src/config/swagger");
+const setupSwaggerDocs = require("./src/config/swagger");
 
 const authRoutes = require("./src/routes/authRoutes");
 const userRoutes = require("./src/routes/userRoutes");
@@ -36,7 +35,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+setupSwaggerDocs(app);
+
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
