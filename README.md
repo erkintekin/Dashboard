@@ -124,6 +124,24 @@ Frontend'i başlatın:
 npm start
 ```
 
+Hesap şifrelerini öğrenmek için
+
+Docker terminal'de aşağıdakı komutu girin
+
+```bash
+docker exec -it postgres-container psql -U postgres -d role_management
+```
+Sonrasında tüm tablolar için aşağıdaki komutu yazın
+
+```bash
+\dt
+```
+
+Aşağıdaki sorgu ile istediğiniz hesabın şifresine ulaşabilirsiniz
+
+```bash
+SELECT * FROM users;
+```
 Frontend, http://localhost:5173 adresinde çalışacaktır.
 
 ### Geliştirici Notları
