@@ -124,7 +124,30 @@ Frontend'i başlatın:
 npm start
 ```
 
-Hesap şifrelerini öğrenmek için
+Hesap şifrelerini öğrenmek için aşağıdaki bilgileri
+
+```bash
+   {
+      name: "SuperAdmin",
+      email: "superadmin@example.com",
+      password: "superadmin123",
+    },
+    {
+      id: 2,
+      name: "Admin",
+      email: "admin@example.com",
+      password: "admin123",
+
+    },
+    {
+      name: "User",
+      email: "user@example.com",
+      password: user123,
+    }
+
+```
+
+ya da
 
 Docker terminal'de aşağıdakı komutu girin
 
