@@ -76,6 +76,11 @@ npm install
 npx knex migrate:latest
 npx knex seed:run
 ```
+Eğer npm install çalıştırırken hata alıyorsanız PowerShell'den aşağıdaki komutu giriniz
+
+```bash
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
 
 ### 3. Backend'i Başlatma
 Backend sunucusunu başlatmak için:
@@ -119,6 +124,24 @@ Frontend'i başlatın:
 npm start
 ```
 
+Hesap şifrelerini öğrenmek için
+
+Docker terminal'de aşağıdakı komutu girin
+
+```bash
+docker exec -it postgres_container psql -U postgres -d role_management
+```
+Sonrasında tüm tablolar için aşağıdaki komutu yazın
+
+```bash
+\dt
+```
+
+Aşağıdaki sorgu ile istediğiniz hesabın şifresine ulaşabilirsiniz
+
+```bash
+SELECT * FROM users;
+```
 Frontend, http://localhost:5173 adresinde çalışacaktır.
 
 ### Geliştirici Notları
