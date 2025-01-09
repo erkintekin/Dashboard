@@ -2,15 +2,20 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
 import axios from "axios";
+import EditUserModal from "../users/EditUserModal"; // Kullanıcı düzenleme modalı
 
-const UsersTable = ({ currentUserRole }) => {
+const UsersTable = ({ refresh, currentUserRole }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [editingUser, setEditingUser] = useState(null); // Düzenlenen kullanıcı
 
-  // Backend'den kullanıcı verilerini alma
   useEffect(() => {
+    fetchUsers();
+  }, [refresh]);
+
+  const fetchUsers = () => {
     const token = localStorage.getItem("token");
     axios
       .get("http://localhost:5000/api/users", {
@@ -20,21 +25,20 @@ const UsersTable = ({ currentUserRole }) => {
       })
       .then((response) => {
         setUsers(response.data);
-        setFilteredUsers(response.data); // filteredUsers ile senkronize etme
+        setFilteredUsers(response.data); // filteredUsers ile senkronize et
         setLoading(false);
       })
       .catch((error) => {
         console.error("Kullanıcı datası fetchlenemedi:", error);
         setLoading(false);
       });
-  }, []);
+  };
 
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
 
     if (!term) {
-      // Eğer arama terimi boşsa, tüm kullanıcıları gösterme
       setFilteredUsers(users);
       return;
     }
@@ -47,11 +51,17 @@ const UsersTable = ({ currentUserRole }) => {
     setFilteredUsers(filtered);
   };
 
-  const deleteUser = async (id) => {
+  const handleEditUser = (user) => {
+    setEditingUser(user); // Düzenleme modalını aç
+  };
+
+  const handleDeleteUser = async (id) => {
+    const token = localStorage.getItem("token");
     try {
-      await axios.delete(`/api/users/${id}`);
-      setUsers(users.filter((user) => user.id !== id));
-      setFilteredUsers(filteredUsers.filter((user) => user.id !== id));
+      await axios.delete(`http://localhost:5000/api/users/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      fetchUsers(); // Listeyi yenile
     } catch (error) {
       console.error("Kullanıcı silinirken hata oluştu:", error);
     }
@@ -86,54 +96,20 @@ const UsersTable = ({ currentUserRole }) => {
         <table className="min-w-full divide-y divide-gray-700">
           <thead>
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Ad
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                E-posta
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Rol
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Durum
-              </th>
-              {currentUserRole === 1 && (
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                  İşlemler
-                </th>
-              )}
+              <th>Ad</th>
+              <th>E-posta</th>
+              <th>Rol</th>
+              <th>Durum</th>
+              <th>İşlemler</th>
             </tr>
           </thead>
-
           <tbody className="divide-y divide-gray-700">
             {filteredUsers.map((user) => (
-              <motion.tr
-                key={user.id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center">
-                    <div className="ml-4">
-                      <div className="text-sm font-medium text-gray-100">
-                        {user.name}
-                      </div>
-                    </div>
-                  </div>
-                </td>
-
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-300">{user.email}</div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-800 text-blue-100">
-                    {user.role}
-                  </span>
-                </td>
-
-                <td className="px-6 py-4 whitespace-nowrap">
+              <tr key={user.id}>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.role}</td>
+                <td>
                   <span
                     className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                       user.isActive
@@ -144,22 +120,35 @@ const UsersTable = ({ currentUserRole }) => {
                     {user.isActive ? "Active" : "Inactive"}
                   </span>
                 </td>
-
                 {currentUserRole === 1 && (
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                     <button
-                      className="text-red-400 hover:text-red-300"
-                      onClick={() => deleteUser(user.id)}
+                      className="text-indigo-400 hover:text-indigo-300"
+                      onClick={() => handleEditUser(user)}
+                    >
+                      Düzenle
+                    </button>
+                    <button
+                      className="text-red-400 hover:text-red-300 ml-2"
+                      onClick={() => handleDeleteUser(user.id)}
                     >
                       Sil
                     </button>
                   </td>
                 )}
-              </motion.tr>
+              </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      {editingUser && (
+        <EditUserModal
+          user={editingUser}
+          onClose={() => setEditingUser(null)}
+          onUserUpdated={fetchUsers}
+        />
+      )}
     </motion.div>
   );
 };

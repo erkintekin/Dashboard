@@ -53,3 +53,30 @@ exports.deleteUser = async (req, res) => {
       .json({ message: "Internal servis hatası", error: err.message });
   }
 };
+
+// Kullanıcı güncelleme (Sadece SuperAdmin)
+exports.updateUser = async (req, res) => {
+  const { id } = req.params;
+  const { name, email, role_id } = req.body;
+
+  try {
+    const updatedRows = await knex("users").where({ id }).update({
+      name,
+      email,
+      role_id,
+    });
+
+    if (!updatedRows) {
+      return res.status(404).json({ message: "Kullanıcı bulunamadı." });
+    }
+
+    res.json({ message: "Kullanıcı başarıyla güncellendi." });
+  } catch (err) {
+    res
+      .status(500)
+      .json({
+        message: "Kullanıcı güncellenirken bir hata oluştu.",
+        error: err.message,
+      });
+  }
+};
