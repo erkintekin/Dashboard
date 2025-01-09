@@ -12,7 +12,6 @@ const bcrypt = require("bcrypt");
         await knex("users")
           .where({ id: user.id })
           .update({ password: hashedPassword });
-        console.log(`Kullanıcı ID ${user.id} için şifre hashlendi.`);
       }
     }
     console.log("Tüm şifreler başarıyla hashlendi.");
