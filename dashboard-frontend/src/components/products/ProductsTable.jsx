@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const ProductsTable = () => {
+const ProductsTable = ({ refresh }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -31,9 +31,10 @@ const ProductsTable = () => {
         console.error("Ürün verileri fetchlenirken hata alındı:", error);
         toast.error("Ürün verileri yüklenirken hata oluştu!");
       });
-  }, []);
+  }, [refresh]);
 
   const isSuperAdmin = userRole === 1; // SuperAdmin kontrolü
+  const isAdmin = userRole === 2; // Admin kontrolü
 
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
@@ -124,7 +125,7 @@ const ProductsTable = () => {
               <th>Kategori</th>
               <th>Fiyat</th>
               <th>Stok</th>
-              {isSuperAdmin && <th>Aksiyon</th>}
+              {(isSuperAdmin || isAdmin) && <th>Aksiyon</th>}
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-700">
@@ -134,7 +135,7 @@ const ProductsTable = () => {
                 <td>{product.category}</td>
                 <td>${parseFloat(product.price).toFixed(2)}</td>
                 <td>{product.stock}</td>
-                {isSuperAdmin && (
+                {(isSuperAdmin || isAdmin) && (
                   <td>
                     <button
                       className="text-indigo-400 mr-2"
