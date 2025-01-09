@@ -2,6 +2,30 @@
 
 Bu projede bir backend, frontend ve PostgreSQL veritabanı kullanılarak bir role management dashboard geliştirilmiştir. Bu rehber, projeyi nasıl kurup çalıştıracağınızı adım adım anlatmaktadır.
 
+### Overview (Genel Bakış) 
+
+e-Ticaret siteniz için Satış Genel Bakışı, Kategori Dağılımı, Kanal Üzerinden Satışlar için grafikleri görüntüleyebilirsiniz.
+
+### Products (Ürünler)
+
+e-Ticaret siteniz için Ürün Yönetimini kolaylıkla burada yapabilirsiniz. Ürün eklemek, listelemek, düzenlemek ve silmek için Ürün Listesi'ni kullanabilirsiniz. Ayrıca Satış Eğrisi ve Kategori Dağılımı tabloları ile şirketiniz için daha iyi analizler yapabilirsiniz.
+
+### Orders (Siparişler)
+
+Bu kısımda Günlük Siparişlerinizin grafiğini görüntüleyebilir, Sipariş Statüsü Dağılımı grafiği ile analizlerinize devam ederken Sipariş Listesi ile bütün siparişlerinizi görüntüleyebilirsiniz
+
+### Sales (Satışlar)
+
+Satış Genel Görünümü, Kategorilere Göre Satışlar ve Günlük Satış Eğilimi grafikleri tam size göre!
+
+### Analytics (Analiz)
+
+Kar vs Hedef tablosu ile hedeflerinize ne kadar yakın olduğunuzu görün! Kanal Performansı, Ürün Performansı, Kullanıcı Tutma ve Müşteri Dağılımı grafikleri ile gelişim rotanızı belirleyin! AI Insights ile AI'dan tam destek alın!
+
+### Settings (Ayarlar)
+
+Profilinizi burada görüntüleyebilir, düzenleyebilirsiniz. Google, Facebook ile hesabınızı bağlayın, kolaylığı yaşayın!
+
 ## Gereksinimler
 
 Projeyi çalıştırmak için aşağıdaki araçların bilgisayarınızda kurulu olması gerekmektedir:
